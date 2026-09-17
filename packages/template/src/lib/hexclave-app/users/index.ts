@@ -303,7 +303,7 @@ export type TokenPartialUser = Pick<
   | "restrictedReason"
 > & {
   /**
-   * The ID of the user's selected team, read from the `selected_team_id` claim of the access token.
+   * The ID of the user's selected team, read from the `selected_team_id` claim of the access token or Convex identity.
    */
   readonly selectedTeamId: string | null,
 }
@@ -361,8 +361,8 @@ export function userUpdateOptionsToCrud(options: UserUpdateOptions): CurrentUser
 
 export type ServerBaseUser = {
   /**
-   * Server users always carry a `ServerTeam`, so server-only methods like `listUsers()` with full member
-   * details can be called on it without fetching the team again.
+   * The selected team is a `ServerTeam` when non-null, so `listUsers()` returns full member details
+   * without fetching the team again.
    */
   readonly selectedTeam: ServerTeam | null,
 

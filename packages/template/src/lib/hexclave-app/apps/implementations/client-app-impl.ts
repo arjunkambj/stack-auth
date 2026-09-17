@@ -3789,12 +3789,16 @@ export class _HexclaveClientAppImplIncomplete<HasTokenStore extends boolean, Pro
     if (!auth) {
       return null;
     }
+    const selectedTeamId = auth.selected_team_id ?? null;
+    if (selectedTeamId !== null && typeof selectedTeamId !== "string") {
+      throw new HexclaveAssertionError("Expected the Convex selected_team_id claim to be a string or null.");
+    }
     return {
       id: auth.subject,
       displayName: auth.name ?? null,
       primaryEmail: auth.email ?? null,
       primaryEmailVerified: auth.email_verified as boolean,
-      selectedTeamId: (auth.selected_team_id as string | null | undefined) ?? null,
+      selectedTeamId,
       isAnonymous: auth.is_anonymous as boolean,
       isMultiFactorRequired: auth.requires_totp_mfa as boolean,
       isRestricted: auth.is_restricted as boolean,
